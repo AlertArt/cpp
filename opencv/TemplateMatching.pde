@@ -1,29 +1,29 @@
-import gab.opencv.*;
-import org.opencv.core.Mat;
-import org.opencv.core.CvType;
-import org.opencv.imgproc.Imgproc;
-import org.opencv.core.Core.MinMaxLocResult;
-import org.opencv.core.Core;
-PImage im, temp;
+#include "opencv2\opencv.hpp"
 
-void setup(){ 
-  im = loadImage("test.jpg");      // 入力画像の読み込み
-  temp = loadImage("temp.jpg");    // テンプレート画像の読み込み
-  OpenCV cvIm = new OpenCV(this,im);
-  OpenCV cvTemp = new OpenCV(this, temp);
-  // マッチング結果格納用
-  Mat matIm = new Mat(im.height, im.width, CvType.CV_32FC1);
-  // テンプレートマッチング処理
-  Imgproc.matchTemplate(cvIm.getColor(), cvTemp.getColor(), matIm, Imgproc.TM_CCOEFF_NORMED);
-  MinMaxLocResult pt = Core.minMaxLoc(matIm);  // マッチングした領域の座標を抽出
-  // 結果を描画
-  size(im.width, im.height);
-  image(im, 0, 0);
-  stroke(200, 0, 0);
-  strokeWeight(3);
-  noFill();
-  rect((int)pt.maxLoc.x, (int)pt.maxLoc.y, temp.width, temp.height); 
-} 
- 
-void draw(){ 
-} 
+using namespace cv;
+
+int main(int argc, char *argv[])
+{
+	Mat im, gray;					              // 変数宣言
+	// カスケード分類器の取得
+	CascadeClassifier cascade;		
+	if (!cascade.load("lbpcascade_animeface.xml")) return -1;
+	vector<Rect> faces;
+	VideoCapture cap(0);			          // カメラのキャプチャ
+	if (!cap.isOpened()) return -1;	    // キャプチャのエラー処理
+
+	while (1) {
+		cap >> im;							          // カメラ映像の取得
+		cvtColor(im, gray, CV_RGB2GRAY);	// グレースケール変換
+		// カスケード分類器で顔の探索
+		cascade.detectMultiScale(im, faces, 1.2, 2, CV_HAAR_SCALE_IMAGE, Size(30, 30));
+		// 顔領域を矩形で囲む
+		vector<Rect>::const_iterator r = faces.begin();
+		for (; r != faces.end(); ++r) {
+			rectangle(im, Point(r->x, r->y), Point(r->x + r->width, r->y + r->height), Scalar(20, 20, 200), 3, CV_AA);
+		}
+		imshow("Camera", im);				    // 映像の表示
+		if (waitKey(30) >= 0) break;		// キー入力があれば終了
+	}
+	return 0;
+}
