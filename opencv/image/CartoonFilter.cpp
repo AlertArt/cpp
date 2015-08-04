@@ -6,8 +6,8 @@ using namespace cv;
 void subtractiveColor(Mat src, Mat dst, int n){
 	for (int j = 0; j &lt; src.rows; j++) {
 		for (int i = 0; i &lt; src.cols; i++) {
-			for (int k = 0; k &lt; 3; k++) {
-				dst.at&lt;Vec3b&gt;(j, i)[k] = (src.at&lt;Vec3b&gt;(j, i)[k] / n) * n + n / 5;
+			for (int k = 0; k < 3; k++) {
+				dst.<Vec3b>(j, i)[k] = (src.<Vec3b>(j, i)[k] / n) * n + n / 5;
 			}
 		}
 	}
