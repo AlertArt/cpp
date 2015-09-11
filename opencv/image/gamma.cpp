@@ -2,7 +2,7 @@
 
 using namespace cv;
   
-int main(void)
+int main(int argc, char* argv[])
 {
 	Mat im = imread("test.png");	  // 画像の取得
     vector<Mat> rgb;
