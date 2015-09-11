@@ -10,7 +10,7 @@ int main(int argc, char *argv[])
 	MatIterator_<Vec3b> itd_end = im.end<Vec3b>();
 	for(int i=0; itd != itd_end; ++itd, ++i) {
 		Vec3b bgr = (*itd);                           // 画素値の取得
-    	printf("%d,%d,%d\n", bgr[0], bgr[1], bgr[2]); // 画素値の表示
+    		printf("%d,%d,%d\n", bgr[0], bgr[1], bgr[2]); // 画素値の表示
 	}
 	return 0;
 }
