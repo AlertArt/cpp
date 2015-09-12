@@ -5,7 +5,7 @@ using namespace cv;
 int main (int argc, char **argv)
 {
 	Mat gray;
-	Mat im = imread("test.jpg")		// 画像を読み込み
+	Mat im = imread("test.jpg");		// 画像を読み込み
 	cvtColor(im, gray, CV_BGR2GRAY);	// グレースケール変換
 	Sobel(gray, gray, CV_32F, 1, 1);	// Sobelフィルタでエッジ検出
 	convertScaleAbs(gray, gray, 1, 0);
