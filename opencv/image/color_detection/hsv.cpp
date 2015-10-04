@@ -28,7 +28,7 @@ public:
 };
 
 void obstDetection(Mat im, char* fname){
-	Txt obst						// テキストファイルの処理
+	Txt obst;						// テキストファイルの処理
 	Mat hsv, mask;					// 画像オブジェクトの宣言
 	cvtColor(im, hsv, CV_BGR2HSV);	// 画像をRGBからHSVに変換
 	inRange(hsv, Scalar(160, 150, 0), Scalar(190, 255, 255), mask);	// 色検出でマスク画像の作成
